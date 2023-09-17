@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Week9_7 {
+public class Week9_4 {
     public static void main(String[] args){
         List<String> list = new ArrayList<>();
         list.add("A");
@@ -153,6 +153,104 @@ public class Week9_7 {
         if(aim<=3) return true;
         for(int i=2; i<=Math.sqrt(aim); ++i) {
             if(aim%i == 0) return false;
+        }
+        return true;
+    }
+
+    //9.9 美的笔试 90 100
+    public static void meidi_1(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String[] inputs = in.nextLine().split(" ");
+        // char[] aim = inputs[0].toCharArray();
+        Double dou = Double.parseDouble(inputs[1]);
+        if (dou%1 != 0) {
+            System.out.println("ERROR");
+            return;
+        }
+        int length = Integer.parseInt(inputs[1]);
+        char[] newAim = new char[inputs[0].length() + length];
+        for (int i = 0; i < inputs[0].length() + length; ++i) {
+            char nowChar = inputs[0].charAt(i);
+            if(nowChar<'a' || nowChar>'z') {
+                System.out.println("ERROR");
+                return;
+            }
+            if (i < inputs[0].length()) newAim[i] = nowChar;
+            else newAim[i] = '0';
+        }
+        for (int i = 0; i < newAim.length; i += length) {
+            if (newAim[i] != '0') {
+                String now = "";
+                for (int j = i; j < i + length; ++j) now += newAim[j];
+                if (i == 0) {
+                    System.out.print(now);
+                    continue;
+                }
+                System.out.print("," + now);
+            } else break;
+        }
+    }
+    public static void meidi_2(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String[] store = in.nextLine().split("");
+        String a = store[0].substring(1, store[0].length() - 1);
+        String b = store[1].substring(1, store[1].length() - 1);
+        if (a.length() != b.length()) {
+            System.out.println(false);
+            return;
+        }
+        int[] storeA = new int[128];
+        int[] storeB = new int[128];
+        for (int i = 0; i < a.length(); ++i) {
+            storeA[a.charAt(i)] += 1;
+            storeB[b.charAt(i)] += 1;
+        }
+        for (int i = 0; i < storeA.length; ++i) {
+            if (storeA[i] != storeB[i]) {
+                System.out.println(false);
+                return;
+            }
+        }
+        System.out.println(true);
+    }
+
+    //207 课程表 中等
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        List<List<Integer>> stores = new ArrayList<>();
+        for(int[] pre:prerequisites) {
+            List<List<Integer>> newStores = new ArrayList<>();
+            for(List<Integer> store:stores) {
+                if(store.get(0).equals(store.get(1))) return false;
+                if(pre[0] == store.get(1)) {
+                    List<Integer> newStore = new ArrayList<>();
+                    newStore.add(store.get(0));
+                    newStore.add(pre[1]);
+                    newStores.add(newStore);
+                }else if(pre[1] == store.get(0)) {
+                    List<Integer> newStore = new ArrayList<>();
+                    newStore.add(pre[0]);
+                    newStore.add(store.get(1));
+                    newStores.add(newStore);
+                } else {
+                    List<Integer> newStore = new ArrayList<>();
+                    newStore.add(pre[0]);
+                    newStore.add(pre[1]);
+                    newStores.add(newStore);
+                    // System.out.println(newStore);
+                }
+            }
+            if(stores.isEmpty()) {
+                List<Integer> newStore = new ArrayList<>();
+                newStore.add(pre[0]);
+                newStore.add(pre[1]);
+                // System.out.println(newStore);
+                stores.add(newStore);
+            }
+            stores.addAll(newStores);
+        }
+        for(List<Integer> store:stores) {
+            System.out.println(store);
+            if(store.get(0).equals(store.get(1))) return false;
         }
         return true;
     }
