@@ -1,3 +1,5 @@
+package com.test;
+
 import com.sun.javafx.geom.Edge;
 
 import java.util.*;

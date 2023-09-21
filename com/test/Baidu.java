@@ -1,3 +1,5 @@
+package com.test;
+
 import java.util.*;
 public class Baidu {
     public static void baidu_2(String[] args) {

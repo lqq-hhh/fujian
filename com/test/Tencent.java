@@ -1,3 +1,5 @@
+package com.test;
+
 import java.util.*;
 public class Tencent {
     public int pathNumber (TreeNode root) {
