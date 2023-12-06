@@ -121,4 +121,49 @@ public class Week10_30 {
         }
         return answer;
     }
+
+    //134 加油站 中等
+    //剪枝-正向区间首个元素
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        if(gas.length == 1) return gas[0]-cost[0]>=0?0:-1;
+        int judge = 0;
+        int pov = -2;
+        HashMap<Integer, Integer> index = new HashMap<>();
+        for(int i=0; i<gas.length; ++i) {
+            int stores = gas[i] - cost[i];
+            if(stores>0){
+                if(pov != i-1) index.put(i, stores);
+                pov = i;
+            }
+            judge += stores;
+        }
+        //    System.out.println(index.values());
+        if(judge<0) return -1;
+        for(int i : index.keySet()) {
+            int now = gas[i]-cost[i];
+            int j = (i+1)%gas.length;
+            int step = 0;
+            while (step < gas.length && now >= 0) {
+                step += 1;
+                now += gas[j]-cost[j];
+                j += 1;
+                j = j % gas.length;
+            }
+            if(step >= gas.length) return i;
+        }
+        return -1;
+    }
+    //较好解法
+    public int canCompleteCircuit1(int[] gas, int[] cost) {
+        int sum=0,total=0,start=0;
+        for(int i=0;i<gas.length;i++){
+            total+=gas[i]-cost[i];
+            sum+=gas[i]-cost[i];
+            if(sum<0){
+                sum=0;
+                start=i+1;
+            }
+        }
+        return total<0 ? -1:start;
+    }
 }
